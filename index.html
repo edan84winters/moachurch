@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>모아교회</title>
+<meta name="robots" content="noindex"><!-- 완성되면 이 줄을 지워 검색에 나오게 합니다 -->
+<meta name="description" content="혼자가 된 청년과 함께하는 교회, 모아교회">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  /* ===== 색과 글꼴 (소개영상의 따뜻한 오후 햇살 톤) ===== */
+  :root {
+    --bg: #fbf7f0;
+    --bg-alt: #f3ece0;
+    --ink: #2f2a24;
+    --ink-soft: #6b6157;
+    --accent: #8a5a32;      /* 문짝 나무색 */
+    --accent-soft: #e9dccb;
+    --olive: #5f6b4a;       /* 카디건 올리브 */
+    --line: #e2d8c9;
+    --card: #ffffff;
+    --serif: "Gowun Batang", serif;
+    --sans: "Gowun Dodum", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); font-size: 17px; line-height: 1.75; word-break: keep-all; }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 700; line-height: 1.35; margin: 0; }
+  .wrap { width: min(1120px, 100% - 32px); margin-inline: auto; }
+
+  /* 아직 채워야 하는 정보 표시 */
+  .todo { background: #fff3c4; color: #7a5b00; border: 1px dashed #d9b53a; border-radius: 6px; padding: 0 6px; font-size: .92em; white-space: nowrap; }
+
+  /* ===== 상단 메뉴 ===== */
+  header { position: sticky; top: 0; z-index: 20; background: rgba(251,247,240,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .logo { font-family: var(--serif); font-size: 22px; font-weight: 700; text-decoration: none; letter-spacing: .02em; display: flex; align-items: center; gap: 8px; }
+  .logo svg { width: 18px; height: 22px; color: var(--accent); }
+  .menu { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; }
+  .menu a { text-decoration: none; color: var(--ink-soft); font-size: 15px; }
+  .menu a:hover { color: var(--accent); }
+  .menu-btn { display: none; background: none; border: 0; padding: 8px; cursor: pointer; color: var(--ink); }
+  @media (max-width: 760px) {
+    .menu-btn { display: block; }
+    .menu { position: absolute; top: 64px; left: 0; right: 0; flex-direction: column; gap: 0; background: var(--bg); border-bottom: 1px solid var(--line); display: none; }
+    .menu.open { display: flex; }
+    .menu a { display: block; padding: 14px 16px; border-top: 1px solid var(--line); }
+  }
+
+  /* ===== 첫 화면 ===== */
+  .hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; align-items: center; padding: 72px 0 88px; }
+  .eyebrow { color: var(--accent); font-size: 15px; letter-spacing: .12em; margin-bottom: 14px; }
+  .hero h1 { font-size: clamp(34px, 5vw, 54px); margin-bottom: 22px; }
+  .hero p { color: var(--ink-soft); font-size: 18px; margin: 0 0 32px; }
+  .btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { display: inline-block; padding: 12px 22px; border-radius: 999px; text-decoration: none; font-size: 16px; border: 1px solid var(--accent); }
+  .btn.primary { background: var(--accent); color: #fff; }
+  .btn.ghost { color: var(--accent); }
+  .btn:hover { filter: brightness(1.08); }
+  .hero-img { border-radius: 200px 200px 16px 16px; overflow: hidden; aspect-ratio: 4/5; box-shadow: 0 24px 48px -24px rgba(80,50,20,.45); }
+  .hero-img img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+  @media (max-width: 860px) {
+    .hero { grid-template-columns: 1fr; gap: 32px; padding: 40px 0 64px; }
+    .hero-img { order: -1; aspect-ratio: 4/3; border-radius: 16px; }
+  }
+
+  /* 첫 화면: 비전 포스터 */
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .hero-poster { padding: 32px 0 80px; }
+  .hero-poster > img { width: 100%; border-radius: 20px; box-shadow: 0 24px 48px -24px rgba(80,50,20,.45); }
+  .hero-below { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; margin-top: 32px; }
+  .hero-below p { margin: 0; color: var(--ink-soft); font-size: 18px; }
+  @media (max-width: 700px) {
+    .hero-poster { padding: 16px 0 56px; }
+    .hero-poster > img { border-radius: 12px; }
+    .hero-below p { font-size: 16px; }
+    .hero-below p br { display: none; }
+  }
+
+  /* ===== 공통 섹션 ===== */
+  section { padding: 88px 0; }
+  section.alt { background: var(--bg-alt); }
+  .sec-head { text-align: center; margin-bottom: 48px; }
+  .sec-head .eyebrow { margin-bottom: 10px; }
+  .sec-head h2 { font-size: clamp(26px, 3.4vw, 36px); }
+  .sec-head p { color: var(--ink-soft); margin: 14px auto 0; max-width: 620px; }
+
+  /* ===== 소개영상 ===== */
+  .video-box { max-width: 900px; margin: 0 auto; border-radius: 16px; overflow: hidden; background: #000; aspect-ratio: 16/9; box-shadow: 0 24px 48px -28px rgba(0,0,0,.5); }
+  .video-soon { position: relative; width: 100%; height: 100%; }
+  .video-soon img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; filter: brightness(.6); }
+  .video-soon span { position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font-family: var(--serif); font-size: clamp(18px, 2.4vw, 24px); }
+  .video-box video, .video-box iframe { width: 100%; height: 100%; display: block; border: 0; }
+  .shorts-title { text-align: center; font-size: 22px; margin-top: 72px; }
+  .shorts-desc { text-align: center; color: var(--ink-soft); margin: 6px 0 28px; font-size: 15px; }
+
+  /* ===== 교회 소개 ===== */
+  .about { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .about-card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+  .about-card img { aspect-ratio: 4/3; width: 100%; object-fit: cover; }
+  .about-card div { padding: 22px 24px 26px; }
+  .about-card h3 { font-size: 20px; margin-bottom: 8px; }
+  .about-card p { margin: 0; color: var(--ink-soft); font-size: 16px; }
+  .quote { text-align: center; font-family: var(--serif); font-size: clamp(20px, 2.6vw, 26px); margin: 64px auto 0; max-width: 720px; color: var(--ink); }
+  .quote small { display: block; font-family: var(--sans); color: var(--ink-soft); font-size: 15px; margin-top: 10px; }
+  @media (max-width: 860px) { .about { grid-template-columns: 1fr; } }
+
+  /* ===== 2027 비전 (포스터 내용) ===== */
+  mark { background: linear-gradient(transparent 55%, #cdeee6 55%); color: inherit; padding: 0 2px; }
+  .define { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 920px; margin: 0 auto; }
+  .def-card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 26px 28px; }
+  .def-card .chip { display: inline-block; background: #3d4f63; color: #fff; font-family: var(--serif); font-size: 16px; padding: 2px 14px; border-radius: 999px; margin-bottom: 12px; }
+  .def-card p { margin: 0; color: var(--ink-soft); font-size: 16px; }
+  .mission { text-align: center; font-family: var(--serif); font-size: clamp(18px, 2.2vw, 22px); margin: 40px auto 0; max-width: 760px; }
+  .vision { max-width: 920px; margin: 64px auto 0; background: #2f3d4c; color: #fff; border-radius: 20px; padding: 32px 36px; display: grid; grid-template-columns: 200px 1fr; gap: 28px; align-items: center; }
+  .vision .eyebrow { color: #9fdccd; margin-bottom: 6px; }
+  .vision h3 { font-size: 24px; margin-bottom: 10px; }
+  .vision-head a { color: #cfe9e2; font-size: 14px; }
+  .vision-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .vision-list li { background: rgba(255,255,255,.08); border-radius: 14px; padding: 18px; display: grid; gap: 8px; font-size: 16px; line-height: 1.5; }
+  .vision-list b { width: 30px; height: 30px; border-radius: 50%; background: #9fdccd; color: #2f3d4c; display: grid; place-items: center; font-family: var(--serif); }
+  .sub-head { text-align: center; font-size: clamp(22px, 2.8vw, 28px); margin: 80px 0 32px; }
+  @media (max-width: 860px) {
+    .define { grid-template-columns: 1fr; }
+    .vision { grid-template-columns: 1fr; padding: 26px 22px; }
+    .vision-list { grid-template-columns: 1fr; }
+    .vision-list li { grid-template-columns: 30px 1fr; align-items: center; gap: 12px; }
+    .vision-list br, .mission br { display: none; }
+  }
+
+  /* ===== 담임목사 ===== */
+  .pastor { display: grid; grid-template-columns: 140px 1fr; gap: 40px; align-items: start; max-width: 880px; margin: 72px auto 0; background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 40px 44px; }
+  .pastor-mark { width: 140px; height: 140px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-family: var(--serif); font-size: 56px; font-weight: 700; }
+  .pastor h3 { font-size: 22px; font-weight: 400; margin-bottom: 14px; }
+  .pastor h3 strong { font-weight: 700; margin-left: 4px; }
+  .pastor .greet { color: var(--ink-soft); margin: 0 0 22px; }
+  .career { list-style: none; margin: 0; padding: 18px 0 0; border-top: 1px solid var(--line); display: grid; gap: 4px; font-size: 16px; }
+  .career li::before { content: "·"; color: var(--accent); margin-right: 8px; font-weight: 700; }
+  @media (max-width: 700px) {
+    .pastor { grid-template-columns: 1fr; gap: 20px; padding: 28px 22px; text-align: left; }
+    .pastor-mark { width: 88px; height: 88px; font-size: 36px; }
+  }
+
+  /* ===== 예배 안내 ===== */
+  .worship { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; max-width: 960px; margin: 0 auto; }
+  .w-card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 28px; }
+  .w-card h3 { font-size: 20px; margin-bottom: 14px; color: var(--accent); }
+  .w-card dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; font-size: 16px; }
+  .w-card dt { color: var(--ink-soft); }
+  .w-card dd { margin: 0; }
+
+  /* ===== 설교 영상 ===== */
+  .shorts { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
+  .short { background: none; border: 0; padding: 0; text-align: left; cursor: pointer; font: inherit; color: inherit; }
+  .short .thumb { position: relative; border-radius: 12px; overflow: hidden; aspect-ratio: 9/16; background: #222; }
+  .short .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s; }
+  .short:hover .thumb img { transform: scale(1.04); }
+  .short .play { position: absolute; inset: auto 10px 10px auto; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.92); display: grid; place-items: center; color: var(--accent); }
+  .short .dur { position: absolute; left: 10px; bottom: 12px; background: rgba(0,0,0,.6); color: #fff; font-size: 13px; padding: 1px 8px; border-radius: 6px; }
+  .short h3 { font-size: 16px; margin-top: 12px; line-height: 1.45; }
+  .short span.sub { display: block; color: var(--ink-soft); font-size: 14px; margin-top: 2px; }
+  .more { text-align: center; margin-top: 40px; }
+  @media (max-width: 960px) {
+    .shorts { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 46%; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; }
+    .short { scroll-snap-align: start; }
+  }
+
+  /* 영상 팝업 */
+  dialog { border: 0; padding: 0; background: transparent; max-width: min(420px, 92vw); }
+  dialog::backdrop { background: rgba(20,15,10,.82); }
+  dialog .frame { width: min(420px, 92vw, calc(86vh * 9 / 16)); aspect-ratio: 9/16; border-radius: 12px; overflow: hidden; background: #000; }
+  dialog .frame iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .short.soon { cursor: default; }
+  .short.soon .thumb img { filter: grayscale(.6) brightness(.75); }
+  .short.soon:hover .thumb img { transform: none; }
+  .soon-badge { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); background: rgba(255,255,255,.92); color: var(--accent); font-size: 14px; padding: 4px 14px; border-radius: 999px; white-space: nowrap; }
+  dialog .close { position: absolute; top: -44px; right: 0; background: none; border: 0; color: #fff; font-size: 30px; cursor: pointer; }
+
+  /* ===== 처음 오시는 분께 ===== */
+  .welcome { display: grid; grid-template-columns: .85fr 1.15fr; gap: 56px; align-items: center; }
+  .welcome-img { border-radius: 16px; overflow: hidden; aspect-ratio: 4/5; }
+  .welcome-img img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; }
+  .welcome h2 { font-size: clamp(26px, 3.4vw, 36px); margin-bottom: 20px; }
+  .steps { list-style: none; padding: 0; margin: 28px 0 32px; display: grid; gap: 18px; }
+  .steps li { display: grid; grid-template-columns: 36px 1fr; gap: 14px; }
+  .steps b { width: 36px; height: 36px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-family: var(--serif); }
+  .steps strong { display: block; font-size: 17px; }
+  .steps span { color: var(--ink-soft); font-size: 16px; }
+  @media (max-width: 860px) { .welcome { grid-template-columns: 1fr; gap: 32px; } .welcome-img { aspect-ratio: 4/3; } }
+
+  /* ===== 오시는 길 ===== */
+  .visit { display: grid; grid-template-columns: 1.2fr .8fr; gap: 32px; }
+  .map-col { display: grid; gap: 14px; align-content: start; }
+  .map { border-radius: 16px; overflow: hidden; border: 1px solid var(--line); background: var(--bg-alt); height: 420px; }
+  .map iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .map-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+  .map-btns .btn { flex: 1; text-align: center; font-size: 15px; padding: 10px 16px; }
+  .info .tag { display: inline-block; font-weight: 400; font-size: 13px; color: var(--accent); background: var(--accent-soft); border-radius: 6px; padding: 0 8px; margin-right: 6px; }
+  .info p + p { margin-top: 4px; }
+  @media (max-width: 860px) { .map { height: 300px; } }
+  .info { display: grid; gap: 18px; align-content: start; }
+  .info div { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 22px; }
+  .info h3 { font-family: var(--sans); font-size: 14px; color: var(--ink-soft); font-weight: 400; margin-bottom: 4px; }
+  .info p { margin: 0; font-size: 17px; }
+  .sns { display: flex; gap: 10px; flex-wrap: wrap; }
+  .sns a { font-size: 15px; text-decoration: none; padding: 6px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg); }
+  @media (max-width: 860px) { .visit { grid-template-columns: 1fr; } }
+
+  /* ===== 바닥글 ===== */
+  footer { background: #2f2a24; color: #d9cfc2; padding: 56px 0 40px; text-align: center; font-size: 15px; }
+  footer .ending { font-family: var(--serif); font-size: 22px; color: #fff; margin-bottom: 6px; }
+  footer .name { font-family: var(--serif); font-size: 18px; color: #e9dccb; margin-bottom: 24px; }
+  footer small { color: #8f8476; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top">
+      <svg viewBox="0 0 18 22" fill="currentColor" aria-hidden="true"><rect x="7.5" y="0" width="3" height="22" rx="1"/><rect x="1" y="6" width="16" height="3" rx="1"/></svg>
+      모아교회
+    </a>
+    <button class="menu-btn" aria-label="메뉴 열기" onclick="document.querySelector('.menu').classList.toggle('open')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <ul class="menu" onclick="this.classList.remove('open')">
+      <li><a href="#about">교회 소개</a></li>
+      <li><a href="#worship">예배 안내</a></li>
+      <li><a href="#sermons">설교 영상</a></li>
+      <li><a href="#welcome">처음 오셨나요?</a></li>
+      <li><a href="#visit">오시는 길</a></li>
+    </ul>
+  </div>
+</header>
+
+<main id="top">
+  <!-- 첫 화면 -->
+  <div class="wrap hero-poster">
+    <!-- 포스터 안에 표어가 이미 있어서, 제목 글자는 화면에서 숨기고 검색·음성읽기용으로만 둡니다 -->
+    <h1 class="sr-only">혼자가 된 청년과 마음을 모아 함께하는 교회, 모아교회</h1>
+    <img src="images/vision2027.jpg" alt="모아교회 2027 비전 포스터: 혼자가 된 청년과 마음을 모아 함께하는 교회, 모아교회. 어깨동무한 청년들과 교회 건물">
+    <div class="hero-below">
+      <p>다시 시작하고 싶은 마음과, 낯선 문 앞에서 망설이는 마음. <br>모아교회는 그 걸음에 함께하고 싶습니다.</p>
+      <div class="btns">
+        <a class="btn primary" href="#worship">예배 안내 보기</a>
+        <a class="btn ghost" href="#intro">소개영상 보기</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 소개영상 -->
+  <section id="intro" class="alt">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">INTRO</div>
+        <h2>모아교회를 소개합니다</h2>
+      </div>
+      <div class="video-box">
+        <!-- 소개영상을 유튜브에 올리면 아래 div 대신 유튜브 iframe으로 바꿉니다 -->
+        <div class="video-soon"><img src="images/scene1.jpg" alt=""><span>소개영상은 곧 공개됩니다</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 교회 소개 -->
+  <section id="about">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">ABOUT</div>
+        <h2>우리가 말하는 ‘혼자가 된 청년’</h2>
+      </div>
+      <div class="define">
+        <div class="def-card">
+          <span class="chip">혼자가 된</span>
+          <p>혼자 사는 사람만이 아니라, 관계가 끊어지거나, 신앙생활을 쉬고 있거나, 교회에서 멀어진 사람을 의미합니다.</p>
+        </div>
+        <div class="def-card">
+          <span class="chip">청년</span>
+          <p>나이가 젊은 사람만이 아니라, 나이에 상관없이 하나님 안에서 다시 시작하려는 모든 사람을 의미합니다.</p>
+        </div>
+      </div>
+      <p class="mission">모아교회는 이런 사람들이 다시 하나님을 만나고, <br>사람들과 관계를 맺으며, <mark>함께 신앙생활을 할 수 있는 교회</mark>가 되고자 합니다.</p>
+
+      <div class="vision">
+        <div class="vision-head">
+          <div class="eyebrow">VISION 2027</div>
+          <h3>2027년 주요 방향</h3>
+          <a href="images/vision2027.jpg" target="_blank" rel="noopener">비전 포스터 크게 보기 →</a>
+        </div>
+        <ol class="vision-list">
+          <li><b>1</b><span>예배와 설교의 <br>변화와 성장</span></li>
+          <li><b>2</b><span>성경공부와 양육으로 <br>세우는 공동체</span></li>
+          <li><b>3</b><span>설교 영상과 다양한 소통으로 <br>더 많은 사람과의 만남</span></li>
+        </ol>
+      </div>
+
+      <h3 class="sub-head">우리가 꿈꾸는 교회</h3>
+      <div class="about">
+        <div class="about-card">
+          <img src="images/scene5.jpg" alt="반갑게 인사를 나누는 사람들" style="object-position:50% 35%">
+          <div>
+            <h3>인사에서 시작되는 관계</h3>
+            <p>처음 만나는 얼굴에 인사를 건네고, 서로의 이름을 알아가는 작은 만남에서부터 공동체를 이루어 갑니다.</p>
+          </div>
+        </div>
+        <div class="about-card">
+          <img src="images/scene6.jpg" alt="둘러앉아 이야기를 나누는 모습" style="object-position:50% 40%">
+          <div>
+            <h3>당신의 이야기에 귀 기울이며</h3>
+            <p>삶의 이야기와 신앙의 질문을 나누고, 말씀 안에서 함께 길을 찾습니다. 질문해도 괜찮습니다.</p>
+          </div>
+        </div>
+        <div class="about-card">
+          <img src="images/scene7.jpg" alt="함께 드리는 예배" style="object-position:50% 45%">
+          <div>
+            <h3>함께 예배하는 공동체</h3>
+            <p>함께 하나님을 예배하고, 예수 그리스도의 사랑을 배우며, 말씀을 일상으로 이어 갑니다.</p>
+          </div>
+        </div>
+      </div>
+      <p class="quote">“내가 너희를 고아와 같이 버려두지 아니하고<br>너희에게로 오리라”<small>요한복음 14:18</small></p>
+
+      <div class="pastor" id="pastor">
+        <div class="pastor-mark" aria-hidden="true">지</div>
+        <div>
+          <div class="eyebrow">PASTOR</div>
+          <h3>담임목사 <strong>지대승</strong></h3>
+          <!-- 인사말은 초안입니다. 대승쌤이 직접 고쳐 주시면 바꿉니다 -->
+          <p class="greet">홀로 남겨졌다고 느끼는 청년들 곁에 함께 서는 교회를 꿈꿉니다. 모아교회는 정답을 서둘러 내리기보다, 한 사람의 이야기를 끝까지 들어 주는 공동체가 되고 싶습니다. 신앙에 질문이 많아도, 오랜만에 다시 시작하는 걸음이어도 괜찮습니다. 언제든 편하게 찾아와 주세요. <span class="todo">인사말 초안 · 확인 필요</span></p>
+          <ul class="career">
+            <li>숭실대학교 기독교학과</li>
+            <li>총신대학교 신학대학원 (M.Div.)</li>
+            <li>수도국제대학원대학교 사회복지학 석사</li>
+            <li>동 대학원 심리상담학 박사과정 중</li>
+            <li>사단법인 한국청년희망지원협회 사무국장</li>
+            <li>청년희망교육아카데미 대표</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 예배 안내 -->
+  <section id="worship" class="alt">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">WORSHIP</div>
+        <h2>예배 안내</h2>
+        <p>누구나 오실 수 있습니다. 편한 차림으로 오세요.</p>
+      </div>
+      <div class="worship">
+        <div class="w-card">
+          <h3>주일예배</h3>
+          <dl><dt>시간</dt><dd><span class="todo">주일 오전 00:00</span></dd><dt>장소</dt><dd><span class="todo">본당</span></dd></dl>
+        </div>
+        <div class="w-card">
+          <h3>청년예배</h3>
+          <dl><dt>시간</dt><dd><span class="todo">주일 오후 00:00</span></dd><dt>장소</dt><dd><span class="todo">장소 입력</span></dd></dl>
+        </div>
+        <div class="w-card">
+          <h3>수요예배</h3>
+          <dl><dt>시간</dt><dd><span class="todo">수요일 저녁 00:00</span></dd><dt>장소</dt><dd><span class="todo">장소 입력</span></dd></dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 설교 영상 -->
+  <section id="sermons">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">SERMONS</div>
+        <h2>설교 영상</h2>
+        <p>유튜브 모아교회 채널에 올라온 최신 설교입니다.</p>
+      </div>
+      <!-- 채널 '업로드' 재생목록(UU…): 유튜브에 새 영상을 올리면 여기에 자동으로 나옵니다 -->
+      <div class="video-box">
+        <iframe src="https://www.youtube-nocookie.com/embed/videoseries?list=UUNEwkkMrLc8X0BRmjjG4sAQ" title="모아교회 최신 설교" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>
+      </div>
+      <h3 class="shorts-title">짧은 말씀</h3>
+      <p class="shorts-desc">추수감사절 예배 설교(열왕기상 19:15-18) 중에서</p>
+      <div class="shorts" id="shorts"></div>
+      <div class="more"><a class="btn ghost" href="https://www.youtube.com/@%EB%AA%A8%EC%95%84%EA%B5%90%ED%9A%8C" target="_blank" rel="noopener">유튜브 채널에서 더 보기</a></div>
+    </div>
+  </section>
+
+  <!-- 처음 오시는 분께 -->
+  <section id="welcome" class="alt">
+    <div class="wrap welcome">
+      <div class="welcome-img"><img src="images/scene8.jpg" alt="함께 웃으며 걸어가는 사람들"></div>
+      <div>
+        <div class="eyebrow">WELCOME</div>
+        <h2>처음 오시는 분께</h2>
+        <p>교회가 낯설어도, 신앙에 질문이 많아도 괜찮습니다.<br>오랜만에 다시 오시는 분도 반갑게 맞이합니다.</p>
+        <ul class="steps">
+          <li><b>1</b><div><strong>편하게 들어오세요</strong><span>입구에서 안내해 드립니다. 미리 연락하지 않으셔도 됩니다.</span></div></li>
+          <li><b>2</b><div><strong>함께 예배드려요</strong><span>처음이시면 원하는 자리에 앉아 편하게 예배하시면 됩니다.</span></div></li>
+          <li><b>3</b><div><strong>차 한 잔 나눠요</strong><span>예배 후 따뜻한 차를 마시며 서로 인사를 나눕니다. <span class="todo">실제 순서 확인</span></span></div></li>
+        </ul>
+        <div class="btns"><a class="btn primary" href="#visit">오시는 길 · 연락하기</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 오시는 길 -->
+  <section id="visit">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">VISIT</div>
+        <h2>오시는 길</h2>
+      </div>
+      <div class="visit">
+        <div class="map-col">
+          <div class="map">
+            <iframe src="https://maps.google.com/maps?q=37.47783,126.77848&z=17&hl=ko&output=embed" title="모아교회 위치 지도" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+          <div class="map-btns">
+            <a class="btn ghost" href="https://map.kakao.com/link/search/%EA%B2%BD%EA%B8%B0%EB%8F%84%20%EB%B6%80%EC%B2%9C%EC%8B%9C%20%EC%86%8C%EC%82%AC%EA%B5%AC%20%EC%84%B1%EC%A3%BC%EB%A1%9C200%EB%B2%88%EA%B8%B8%2019" target="_blank" rel="noopener">카카오맵으로 보기</a>
+            <a class="btn ghost" href="https://map.naver.com/p/search/%EA%B2%BD%EA%B8%B0%EB%8F%84%20%EB%B6%80%EC%B2%9C%EC%8B%9C%20%EC%86%8C%EC%82%AC%EA%B5%AC%20%EC%84%B1%EC%A3%BC%EB%A1%9C200%EB%B2%88%EA%B8%B8%2019" target="_blank" rel="noopener">네이버지도로 보기</a>
+          </div>
+        </div>
+        <div class="info">
+          <div><h3>주소</h3><p>경기도 부천시 소사구 성주로200번길 19, 2층</p></div>
+          <div><h3>대중교통</h3>
+            <p><b class="tag">지하철</b> 1호선 부천역</p>
+            <p><b class="tag">버스</b> 6, 6-2, 19, 25, 75번 · <b>소림사</b> 정류장 하차<br><span style="color:var(--ink-soft);font-size:15px">내려서 금강아파트 방향으로 걸어서 2분</span></p>
+          </div>
+          <div><h3>주차</h3>
+            <p>건물 주차장 2대 가능<br>건물 앞이나 주변 도로, 또는 공영주차장(약 420m, 걸어서 6분) 이용</p>
+          </div>
+          <div><h3>연락처</h3><p><span class="todo">전화번호</span> · <span class="todo">이메일</span></p></div>
+          <div><h3>담임목사</h3><p>지대승 <a href="#pastor" style="font-size:14px;color:var(--accent)">소개 보기</a></p></div>
+          <div><h3>소식 받기</h3>
+            <div class="sns" style="background:none;border:0;padding:0">
+              <a href="https://www.youtube.com/@%EB%AA%A8%EC%95%84%EA%B5%90%ED%9A%8C" target="_blank" rel="noopener">유튜브</a>
+              <a href="#" onclick="return false">인스타그램</a>
+              <a href="#" onclick="return false">카카오톡 채널</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="ending">당신과 함께 꿈꾸고 싶습니다.</div>
+    <div class="name">모아교회</div>
+    <small>© 2026 모아교회 · 이 페이지의 그림은 이야기를 위한 예시 이미지입니다.</small>
+  </div>
+</footer>
+
+<dialog id="player">
+  <button class="close" aria-label="닫기" onclick="this.closest('dialog').close()">×</button>
+  <div class="frame"></div>
+</dialog>
+
+<script>
+  // 설교 쇼츠 목록 — 유튜브에 올리면 youtube 칸에 영상 ID(쇼츠 주소 맨 끝 부분)를 넣으면 됩니다.
+  // youtube 칸이 비어 있으면 '곧 공개'로 표시됩니다.
+  const SHORTS = [
+    { n: "01", title: "나만 남았다고 느껴질 때", sub: "엘리야와 칠천 명", dur: "1:52", youtube: "NiYFXtltMxU" },
+    { n: "02", title: "기도의 답을 미리 정해 놓았나요?", sub: "하나님의 생각은 다릅니다", dur: "2:11", youtube: "g0uZeOI8ffA" },
+    { n: "03", title: "하나님은 조용한 소리로 오십니다", sub: "광야에서 들리는 음성", dur: "2:27", youtube: "" },
+    { n: "04", title: "홀로 남겨진 이들을 품는 교회", sub: "은둔고립 청년과 함께", dur: "2:27", youtube: "" },
+    { n: "05", title: "절망할 시간이 없습니다", sub: "우리는 결코 혼자가 아닙니다", dur: "2:13", youtube: "" },
+  ];
+  const box = document.getElementById("shorts");
+  const dlg = document.getElementById("player");
+  const frame = dlg.querySelector(".frame");
+  SHORTS.forEach(s => {
+    const b = document.createElement("button");
+    b.className = "short" + (s.youtube ? "" : " soon");
+    b.disabled = !s.youtube;
+    b.innerHTML = `<div class="thumb"><img src="images/short_${s.n}.jpg" alt="" loading="lazy">
+      ${s.youtube
+        ? `<span class="dur">${s.dur}</span><span class="play"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2.5v11l9-5.5z"/></svg></span>`
+        : `<span class="soon-badge">곧 공개</span>`}</div>
+      <h3>${s.title}</h3><span class="sub">${s.sub}</span>`;
+    if (s.youtube) b.onclick = () => {
+      frame.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${s.youtube}?autoplay=1&rel=0" title="${s.title}" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>`;
+      dlg.showModal();
+    };
+    box.appendChild(b);
+  });
+  dlg.addEventListener("close", () => { frame.innerHTML = ""; });
+  dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+</script>
+</body>
+</html>
