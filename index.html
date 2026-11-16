@@ -145,7 +145,7 @@
 
   /* ===== 담임목사 ===== */
   .pastor { display: grid; grid-template-columns: 140px 1fr; gap: 40px; align-items: start; max-width: 880px; margin: 72px auto 0; background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 40px 44px; }
-  .pastor-mark { width: 140px; height: 140px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; font-family: var(--serif); font-size: 56px; font-weight: 700; }
+  .pastor-photo { width: 140px; height: 140px; border-radius: 50%; object-fit: cover; display: block; border: 4px solid var(--accent-soft); }
   .pastor h3 { font-size: 22px; font-weight: 400; margin-bottom: 14px; }
   .pastor h3 strong { font-weight: 700; margin-left: 4px; }
   .pastor .greet { color: var(--ink-soft); margin: 0 0 26px; }
@@ -156,7 +156,7 @@
   .career li::before { content: "·"; color: var(--accent); margin-right: 8px; font-weight: 700; }
   @media (max-width: 700px) {
     .pastor { grid-template-columns: 1fr; gap: 20px; padding: 28px 22px; text-align: left; }
-    .pastor-mark { width: 88px; height: 88px; font-size: 36px; }
+    .pastor-photo { width: 110px; height: 110px; }
   }
 
   /* ===== 예배 안내 ===== */
@@ -166,6 +166,8 @@
   .w-card dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; font-size: 16px; }
   .w-card dt { color: var(--ink-soft); }
   .w-card dd { margin: 0; }
+  .w-place { text-align: center; color: var(--ink-soft); margin: 24px 0 0; font-size: 15px; }
+  .w-place a { color: var(--accent); margin-left: 6px; }
 
   /* ===== 설교 영상 ===== */
   .shorts { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
@@ -347,7 +349,7 @@
       <p class="quote">“내가 너희를 고아와 같이 버려두지 아니하고<br>너희에게로 오리라”<small>요한복음 14:18</small></p>
 
       <div class="pastor" id="pastor">
-        <div class="pastor-mark" aria-hidden="true">지</div>
+        <img class="pastor-photo" src="images/pastor.jpg" width="400" height="400" alt="담임목사 지대승" loading="lazy">
         <div>
           <div class="eyebrow">PASTOR</div>
           <h3>담임목사 <strong>인사말</strong></h3>
@@ -384,16 +386,18 @@
       <div class="worship">
         <div class="w-card">
           <h3>주일예배</h3>
-          <dl><dt>시간</dt><dd><span class="todo">주일 오전 00:00</span></dd><dt>장소</dt><dd><span class="todo">본당</span></dd></dl>
-        </div>
-        <div class="w-card">
-          <h3>청년예배</h3>
-          <dl><dt>시간</dt><dd><span class="todo">주일 오후 00:00</span></dd><dt>장소</dt><dd><span class="todo">장소 입력</span></dd></dl>
+          <dl><dt>시간</dt><dd>주일 오전 11시</dd></dl>
         </div>
         <div class="w-card">
           <h3>수요예배</h3>
-          <dl><dt>시간</dt><dd><span class="todo">수요일 저녁 00:00</span></dd><dt>장소</dt><dd><span class="todo">장소 입력</span></dd></dl>
+          <dl><dt>시간</dt><dd>수요일 저녁 9시</dd></dl>
         </div>
+        <div class="w-card">
+          <h3>금요예배</h3>
+          <dl><dt>시간</dt><dd>금요일 저녁 9시</dd></dl>
+        </div>
+      </div>
+      <p class="w-place">모든 예배는 모아교회(성주로200번길 19, 2층)에서 드립니다. <a href="#visit">오시는 길</a></p>
       </div>
     </div>
   </section>
