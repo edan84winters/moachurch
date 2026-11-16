@@ -180,9 +180,18 @@
   .short h3 { font-size: 16px; margin-top: 12px; line-height: 1.45; }
   .short span.sub { display: block; color: var(--ink-soft); font-size: 14px; margin-top: 2px; }
   .more { text-align: center; margin-top: 40px; }
+  .now-playing { text-align: center; color: var(--ink-soft); font-size: 15px; margin: 14px 0 0; min-height: 1.5em; }
+  .past { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-top: 28px; }
+  .past:empty { display: none; }
+  .past button { background: none; border: 0; padding: 0; text-align: left; cursor: pointer; font: inherit; color: inherit; }
+  .past .pthumb { position: relative; aspect-ratio: 16/9; border-radius: 10px; overflow: hidden; background: #222; outline: 3px solid transparent; outline-offset: -3px; }
+  .past .pthumb img { width: 100%; height: 100%; object-fit: cover; }
+  .past button.on .pthumb { outline-color: var(--accent); }
+  .past .ptitle { display: block; font-size: 14px; margin-top: 8px; line-height: 1.4; }
+  .past .pdate { display: block; font-size: 13px; color: var(--ink-soft); }
   @media (max-width: 960px) {
-    .shorts { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 46%; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; }
-    .short { scroll-snap-align: start; }
+    .shorts, .past { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 46%; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; }
+    .short, .past button { scroll-snap-align: start; }
   }
 
   /* 영상 팝업 */
@@ -410,12 +419,14 @@
         <h2>설교 영상</h2>
         <p>유튜브 모아교회 채널에 올라온 최신 설교입니다.</p>
       </div>
-      <!-- 채널 '업로드' 재생목록(UU…): 유튜브에 새 영상을 올리면 여기에 자동으로 나옵니다 -->
-      <div class="video-box">
-        <iframe src="https://www.youtube-nocookie.com/embed/videoseries?list=UUNEwkkMrLc8X0BRmjjG4sAQ" title="모아교회 최신 설교" loading="lazy" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>
+      <!-- 영상 목록은 videos.json 에서 읽습니다. GitHub Actions가 3시간마다 유튜브 채널을 확인해 자동으로 갱신합니다 -->
+      <div class="video-box" id="sermon-box">
+        <iframe id="sermon-frame" title="모아교회 최신 설교" loading="lazy" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>
       </div>
+      <p class="now-playing" id="now-playing"></p>
+      <div class="past" id="past"></div>
       <h3 class="shorts-title">짧은 말씀</h3>
-      <p class="shorts-desc">추수감사절 예배 설교(열왕기상 19:15-18) 중에서</p>
+      <p class="shorts-desc">설교 가운데 한 대목을 짧게 담았습니다.</p>
       <div class="shorts" id="shorts"></div>
       <div class="more"><a class="btn ghost" href="https://www.youtube.com/@%EB%AA%A8%EC%95%84%EA%B5%90%ED%9A%8C" target="_blank" rel="noopener">유튜브 채널에서 더 보기</a></div>
     </div>
@@ -494,33 +505,65 @@
 </dialog>
 
 <script>
-  // 설교 쇼츠 목록 — 유튜브에 올리면 youtube 칸에 영상 ID(쇼츠 주소 맨 끝 부분)를 넣으면 됩니다.
-  // youtube 칸이 비어 있으면 '곧 공개'로 표시됩니다.
-  const SHORTS = [
-    { n: "01", title: "나만 남았다고 느껴질 때", sub: "엘리야와 칠천 명", dur: "1:52", youtube: "NiYFXtltMxU" },
-    { n: "02", title: "기도의 답을 미리 정해 놓았나요?", sub: "하나님의 생각은 다릅니다", dur: "2:11", youtube: "g0uZeOI8ffA" },
-    { n: "03", title: "하나님은 조용한 소리로 오십니다", sub: "광야에서 들리는 음성", dur: "2:27", youtube: "" },
-    { n: "04", title: "홀로 남겨진 이들을 품는 교회", sub: "은둔고립 청년과 함께", dur: "2:27", youtube: "" },
-    { n: "05", title: "절망할 시간이 없습니다", sub: "우리는 결코 혼자가 아닙니다", dur: "2:13", youtube: "" },
+  // 영상 목록은 videos.json 에서 읽습니다(자동 갱신). 유튜브에 올리기만 하면 몇 시간 안에 여기에 나옵니다.
+  const YT = "https://www.youtube-nocookie.com/embed/";
+  const UPLOADS = "videoseries?list=UUNEwkkMrLc8X0BRmjjG4sAQ";   // 목록을 못 읽을 때 쓰는 채널 전체 업로드
+  // 직접 만든 쇼츠 포스터가 있는 영상은 그 그림을 씁니다
+  const POSTERS = { "NiYFXtltMxU": ["01", "1:52"], "g0uZeOI8ffA": ["02", "2:11"], "ZAVOoIqK3FA": ["03", "2:27"], "LlTs6WmFrMA": ["04", "2:27"], "-jHvTM6MKIw": ["05", "2:13"] };
+  const FALLBACK_SHORTS = [
+    { id: "-jHvTM6MKIw", title: "절망할 시간이 없습니다", sub: "우리는 결코 혼자가 아닙니다" },
+    { id: "LlTs6WmFrMA", title: "홀로 남겨진 이들을 품는 교회", sub: "은둔고립 청년과 함께" },
+    { id: "ZAVOoIqK3FA", title: "하나님은 조용한 소리로 오십니다", sub: "광야에서 들리는 음성" },
+    { id: "g0uZeOI8ffA", title: "기도의 답을 미리 정해 놓았나요?", sub: "하나님의 생각은 다릅니다" },
+    { id: "NiYFXtltMxU", title: "나만 남았다고 느껴질 때", sub: "엘리야와 칠천 명" },
   ];
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const dateKo = iso => { const d = new Date(iso); return `${d.getUTCFullYear()}년 ${d.getUTCMonth() + 1}월 ${d.getUTCDate()}일`; };
+  const sermonFrame = document.getElementById("sermon-frame");
+  const nowPlaying = document.getElementById("now-playing");
+  const past = document.getElementById("past");
   const box = document.getElementById("shorts");
   const dlg = document.getElementById("player");
   const frame = dlg.querySelector(".frame");
-  SHORTS.forEach(s => {
-    const b = document.createElement("button");
-    b.className = "short" + (s.youtube ? "" : " soon");
-    b.disabled = !s.youtube;
-    b.innerHTML = `<div class="thumb"><img src="images/short_${s.n}.jpg" alt="" loading="lazy">
-      ${s.youtube
-        ? `<span class="dur">${s.dur}</span><span class="play"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2.5v11l9-5.5z"/></svg></span>`
-        : `<span class="soon-badge">곧 공개</span>`}</div>
-      <h3>${s.title}</h3><span class="sub">${s.sub}</span>`;
-    if (s.youtube) b.onclick = () => {
-      frame.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${s.youtube}?autoplay=1&rel=0" title="${s.title}" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>`;
-      dlg.showModal();
+
+  function showSermons(list) {
+    if (!list.length) { sermonFrame.src = YT + UPLOADS; return; }
+    const play = (v, auto) => {
+      sermonFrame.src = YT + v.id + "?rel=0" + (auto ? "&autoplay=1" : "");
+      nowPlaying.textContent = `${v.title} · ${dateKo(v.published)}`;
+      past.querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.id === v.id));
     };
-    box.appendChild(b);
-  });
+    if (list.length > 1) list.slice(0, 5).forEach(v => {
+      const b = document.createElement("button");
+      b.dataset.id = v.id;
+      b.innerHTML = `<div class="pthumb"><img src="https://i.ytimg.com/vi/${v.id}/mqdefault.jpg" alt="" loading="lazy"></div>
+        <span class="ptitle">${esc(v.title)}</span><span class="pdate">${dateKo(v.published)}</span>`;
+      b.onclick = () => { play(v, true); document.getElementById("sermon-box").scrollIntoView({ behavior: "smooth", block: "center" }); };
+      past.appendChild(b);
+    });
+    play(list[0], false);
+  }
+
+  function showShorts(list) {
+    list.slice(0, 5).forEach(s => {
+      const p = POSTERS[s.id];
+      const b = document.createElement("button");
+      b.className = "short";
+      b.innerHTML = `<div class="thumb"><img src="${p ? `images/short_${p[0]}.jpg` : `https://i.ytimg.com/vi/${s.id}/oar2.jpg`}" alt="" loading="lazy">
+        ${p ? `<span class="dur">${p[1]}</span>` : ""}<span class="play"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2.5v11l9-5.5z"/></svg></span></div>
+        <h3>${esc(s.title)}</h3>${s.sub ? `<span class="sub">${esc(s.sub)}</span>` : ""}`;
+      b.onclick = () => {
+        frame.innerHTML = `<iframe src="${YT}${s.id}?autoplay=1&rel=0" title="${esc(s.title)}" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>`;
+        dlg.showModal();
+      };
+      box.appendChild(b);
+    });
+  }
+
+  fetch("videos.json", { cache: "no-cache" })
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(d => { showSermons(d.sermons || []); showShorts(d.shorts && d.shorts.length ? d.shorts : FALLBACK_SHORTS); })
+    .catch(() => { showSermons([]); showShorts(FALLBACK_SHORTS); });
   dlg.addEventListener("close", () => { frame.innerHTML = ""; });
   dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
 </script>
