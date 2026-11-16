@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>모아교회</title>
+<link rel="icon" type="image/png" href="images/favicon.png">
+<link rel="apple-touch-icon" href="images/favicon.png">
 <meta name="robots" content="noindex"><!-- 완성되면 이 줄을 지워 검색에 나오게 합니다 -->
 <meta name="description" content="혼자가 된 청년과 함께하는 교회, 모아교회">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,7 +41,8 @@
   header { position: sticky; top: 0; z-index: 20; background: rgba(251,247,240,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
   .nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
   .logo { font-family: var(--serif); font-size: 22px; font-weight: 700; text-decoration: none; letter-spacing: .02em; display: flex; align-items: center; gap: 8px; }
-  .logo svg { width: 18px; height: 22px; color: var(--accent); }
+  .logo img { height: 40px; width: auto; }
+  .logo { gap: 10px; }
   .menu { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; }
   .menu a { text-decoration: none; color: var(--ink-soft); font-size: 15px; }
   .menu a:hover { color: var(--accent); }
@@ -222,7 +225,7 @@
 <header>
   <div class="wrap nav">
     <a class="logo" href="#top">
-      <svg viewBox="0 0 18 22" fill="currentColor" aria-hidden="true"><rect x="7.5" y="0" width="3" height="22" rx="1"/><rect x="1" y="6" width="16" height="3" rx="1"/></svg>
+      <img src="images/logo-mark.png" alt="" width="58" height="40">
       모아교회
     </a>
     <button class="menu-btn" aria-label="메뉴 열기" onclick="document.querySelector('.menu').classList.toggle('open')">
