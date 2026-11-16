@@ -126,7 +126,8 @@
   .def-card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 26px 28px; }
   .def-card .chip { display: inline-block; background: #3d4f63; color: #fff; font-family: var(--serif); font-size: 16px; padding: 2px 14px; border-radius: 999px; margin-bottom: 12px; }
   .def-card p { margin: 0; color: var(--ink-soft); font-size: 16px; }
-  .mission { text-align: center; font-family: var(--serif); font-size: clamp(18px, 2.2vw, 22px); margin: 40px auto 0; max-width: 760px; }
+  .mission mark { white-space: nowrap; }
+  .mission { text-wrap: balance; word-break: keep-all; text-align: center; font-family: var(--serif); font-size: clamp(18px, 2.2vw, 22px); margin: 40px auto 0; max-width: 760px; }
   .vision { max-width: 920px; margin: 64px auto 0; background: #2f3d4c; color: #fff; border-radius: 20px; padding: 32px 36px; display: grid; grid-template-columns: 200px 1fr; gap: 28px; align-items: center; }
   .vision .eyebrow { color: #9fdccd; margin-bottom: 6px; }
   .vision h3 { font-size: 24px; margin-bottom: 10px; }
@@ -140,7 +141,7 @@
     .vision { grid-template-columns: 1fr; padding: 26px 22px; }
     .vision-list { grid-template-columns: 1fr; }
     .vision-list li { grid-template-columns: 30px 1fr; align-items: center; gap: 12px; }
-    .vision-list br, .mission br { display: none; }
+    .vision-list br { display: none; }
   }
 
   /* ===== 담임목사 ===== */
@@ -316,7 +317,7 @@
           <p>나이가 젊은 사람만이 아니라, 나이에 상관없이 하나님 안에서 다시 시작하려는 모든 사람을 의미합니다.</p>
         </div>
       </div>
-      <p class="mission">모아교회는 이런 사람들이 다시 하나님을 만나고, <br>사람들과 관계를 맺으며, <mark>함께 신앙생활을 할 수 있는 교회</mark>가 되고자 합니다.</p>
+      <p class="mission">모아교회는 이런 사람들이 다시 하나님을 만나고, 사람들과 관계를 맺으며, <br><mark>함께 신앙생활을 할 수 있는 교회</mark>가 되고자 합니다.</p>
 
       <div class="vision">
         <div class="vision-head">
@@ -494,7 +495,7 @@
 <footer>
   <div class="wrap">
     <div class="ending">당신과 함께 꿈꾸고 싶습니다.</div>
-    <div class="name">모아교회</div>
+    <div class="name">대한예수교장로회 모아교회</div>
     <small>© 2026 모아교회 · 이 페이지의 그림은 이야기를 위한 예시 이미지입니다.</small>
   </div>
 </footer>
