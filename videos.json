@@ -1,6 +1,11 @@
 {
  "sermons": [
   {
+   "id": "ZTXinWYZKQQ",
+   "title": "모아교회 주일예배",
+   "published": "2026-11-22T02:03:35+00:00"
+  },
+  {
    "id": "G8HHQedIAPU",
    "title": "모아교회 주일예배",
    "published": "2026-11-08T15:37:11+00:00"
@@ -24,11 +29,6 @@
    "id": "o2_4jNOxK2Q",
    "title": "모아교회 주일예배",
    "published": "2026-10-04T16:02:28+00:00"
-  },
-  {
-   "id": "lv6Pc47oFuE",
-   "title": "모아교회 주일예배",
-   "published": "2026-09-27T19:22:53+00:00"
   }
  ],
  "shorts": [
